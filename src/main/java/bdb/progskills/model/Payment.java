@@ -1,9 +1,11 @@
 package bdb.progskills.model;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -18,18 +20,30 @@ public class Payment {
 
     private Integer idBill;
 
+    @CreationTimestamp
+    private LocalDateTime date;
+
     @Transient
     private Double total;
+
 
     @ManyToOne
     @JoinColumn(name = "id_client", insertable = false, updatable = false)
     private Client client;
 
     @OneToMany(mappedBy = "payment", cascade = {CascadeType.ALL})
-    private List<PaymentProduct> products;
+    private List<PaymentProduct> products = new ArrayList<PaymentProduct>();
 
-    private LocalDateTime date;
+    public Double getTotal() {
+        double total = 0;
+        for (PaymentProduct paymentProduct : products)
+            total += paymentProduct.getProduct().getPrice();
+        return total;
+    }
 
+    public void addProduct(Product product) {
+        products.add(new PaymentProduct(this, product));
+    }
 
 
 }
