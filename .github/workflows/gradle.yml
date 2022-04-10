@@ -28,8 +28,10 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
-    - name: Build with Gradle
-      run: ./gradlew build
+    - name: Test ClientService
+      run: ./gradlew test --tests bdb.progskills.repository.ClientServiceTest
+    - name: Test ClientRepository
+      run: ./gradlew test --tests bdb.progskills.repository.ClientRepositoryTest 
     - name: Archive test report
       uses: actions/upload-artifact@v2
       with:
