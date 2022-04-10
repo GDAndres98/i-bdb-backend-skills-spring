@@ -29,7 +29,7 @@ class ClientRepositoryTest {
         underTest.save(client);
 
         // when
-        boolean exists = underTest.existsByDocument(document);
+        boolean exists = underTest.existsByDocument(document+'x');
 
         //then
         assertTrue(exists);
