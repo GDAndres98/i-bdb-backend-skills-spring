@@ -16,11 +16,6 @@ class ClientRepositoryTest {
     @Autowired
     private ClientRepository underTest;
 
-    @AfterEach
-    void tearDown() {
-        underTest.deleteAll();
-    }
-
     @Test
     void itShouldExistsByDocument() {
         // given
