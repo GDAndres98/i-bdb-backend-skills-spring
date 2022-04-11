@@ -1,5 +1,6 @@
 package bdb.progskills.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -12,11 +13,8 @@ import java.util.List;
 @Entity
 public class Payment {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "id_client")
-    private Long idClient;
 
     private Integer idBill;
 
@@ -28,21 +26,29 @@ public class Payment {
 
 
     @ManyToOne
-    @JoinColumn(name = "id_client", insertable = false, updatable = false)
+    @JoinColumn(name = "id_client", nullable = false)
     private Client client;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "payment", cascade = {CascadeType.ALL})
-    private List<PaymentProduct> products = new ArrayList<PaymentProduct>();
+    private List<PaymentProduct> paymentProducts = new ArrayList<PaymentProduct>();
 
     public Double getTotal() {
         double total = 0;
-        for (PaymentProduct paymentProduct : products)
+        for (PaymentProduct paymentProduct : paymentProducts)
             total += paymentProduct.getProduct().getPrice();
         return total;
     }
 
     public void addProduct(Product product) {
-        products.add(new PaymentProduct(this, product));
+        paymentProducts.add(new PaymentProduct(this, product));
+    }
+
+    public List<Product> getProducts() {
+        List<Product> products = new ArrayList<>();
+        for (PaymentProduct paymentProduct : paymentProducts)
+            products.add(paymentProduct.getProduct());
+        return products;
     }
 
 

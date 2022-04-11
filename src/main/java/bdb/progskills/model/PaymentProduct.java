@@ -13,6 +13,7 @@ import javax.persistence.*;
 public class PaymentProduct {
 
     @EmbeddedId
+    @JsonIgnore
     private PaymentProductPK id;
 
     @ManyToOne
