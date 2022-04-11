@@ -1,5 +1,6 @@
 package bdb.progskills.service;
 
+import bdb.progskills.model.Client;
 import bdb.progskills.model.Product;
 import bdb.progskills.repository.ProductRepository;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 
 @AllArgsConstructor
@@ -22,6 +24,13 @@ public class ProductService {
 
     public List<Product> getAll() {
         return productRepository.findAll();
+    }
+
+    public Product getById(Long id) {
+        Optional<Product> productOptional = productRepository.findById(id);
+        if (productOptional.isPresent())
+            return productOptional.get();
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product with ID " + id + " not found");
     }
 
     public Product addProduct(Product product) {
