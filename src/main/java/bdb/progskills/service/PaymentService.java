@@ -26,6 +26,11 @@ public class PaymentService {
         return paymentRepository.findAll();
     }
 
+    public List<Payment> getByClientId(Long Id) {
+        return paymentRepository.findByClient_Id(Id);
+    }
+
+
     public Payment addPayment(Payment payment) {
         return paymentRepository.save(payment);
     }

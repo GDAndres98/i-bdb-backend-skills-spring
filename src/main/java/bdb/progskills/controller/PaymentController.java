@@ -27,6 +27,12 @@ public class PaymentController {
         return new ResponseEntity<>(paymentService.getAll(), HttpStatus.OK);
     }
 
+    @GetMapping("/client/{id}")
+    @ApiOperation("Search payments by Client Id")
+    public ResponseEntity<List<Payment>> getByClientId(@ApiParam(value = "Id of Client", required = true, example = "2") @PathVariable("id")  Long idClient) {
+        return new ResponseEntity<>(paymentService.getByClientId(idClient), HttpStatus.OK);
+    }
+
     @PostMapping("/save")
     @ApiOperation("Save payment by Client Id and Product Ids")
     @ApiResponses({
