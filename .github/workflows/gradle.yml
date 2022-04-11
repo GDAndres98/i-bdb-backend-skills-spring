@@ -33,12 +33,12 @@ jobs:
     - name: Services test report
       uses: actions/upload-artifact@v2
       with:
-        name: Test report
+        name: Services test report
         path: build/reports/tests/test
     - name: Test Repositories
       run: ./gradlew test --tests bdb.progskills.repository*
     - name: Repositories test report
       uses: actions/upload-artifact@v2
       with:
-        name: Test report
+        name: Repositories test report
         path: build/reports/tests/test
